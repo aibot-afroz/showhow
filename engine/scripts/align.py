@@ -72,7 +72,7 @@ def recognise(voice):
     model = next((m for m in MODELS if m.exists()), None) if sys.platform == "darwin" else (whisper_cli() and WHISPER)   # Apple speech exists only on a Mac; elsewhere use whisper.cpp
     if model:
         base = wav.with_suffix("")
-        subprocess.run([whisper_cli(), "-m", str(model), "-f", str(wav), "-ojf", "-of", str(base), "-np"], check=True, capture_output=True)
+        subprocess.run([whisper_cli(), "-m", str(model), "-f", str(wav), "-ojf", "-of", str(base), "-np", "-ng"], check=True, capture_output=True)
         out, cur = [], None
         for seg in json.loads(base.with_suffix(".json").read_text())["transcription"]:
             for tok in seg["tokens"]:
